@@ -9,13 +9,15 @@ public class Register : MonoBehaviour
 {
     private TMP_InputField _username;
     private TMP_InputField _password;
-    private Button _submitButton;
+    private Button _registerButton;
+    private Button _loginButton;
 
     void Start()
     {
         _username = GameObject.Find("Username").GetComponent<TMP_InputField>();
         _password = GameObject.Find("Password").GetComponent<TMP_InputField>();
-        _submitButton = GameObject.Find("Register").GetComponent<Button>();
+        _registerButton = GameObject.Find("Register").GetComponent<Button>();
+        _loginButton = GameObject.Find("Login").GetComponent<Button>();
     }
 
     public void RegisterButton()
@@ -25,6 +27,10 @@ public class Register : MonoBehaviour
 
     IEnumerator RegisterCo()
     {
+        _registerButton.interactable = false;
+        _loginButton.interactable = false;
+        _username.interactable = false;
+        _password.interactable = false;
         WWWForm form = new WWWForm();
         form.AddField("username", _username.text);
         form.AddField("password", _password.text);
@@ -41,11 +47,15 @@ public class Register : MonoBehaviour
         {
             Debug.Log("User creation failed: # " + req.downloadHandler.text);
         }
+        _registerButton.interactable = true;
+        _loginButton.interactable = true;
+        _username.interactable = true;
+        _password.interactable = false;
     }
 
     public void VerifyRules()
     {
-        _submitButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8 && IsNumber(_username.text[0]));
+        _registerButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8 && IsNumber(_username.text[0]));
     }
 
     private bool IsNumber(char c)

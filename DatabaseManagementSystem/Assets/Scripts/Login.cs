@@ -13,6 +13,7 @@ public class Login : MonoBehaviour
     private TMP_InputField _password;
 
     private Button _loginButton;
+    private Button _registerButton;
     
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class Login : MonoBehaviour
         _username = GameObject.Find("Username").GetComponent<TMP_InputField>();
         _password = GameObject.Find("Password").GetComponent<TMP_InputField>();
         _loginButton = GameObject.Find("Login").GetComponent<Button>();
+        _registerButton = GameObject.Find("Register").GetComponent<Button>();
     }
 
     public void LoginButton()
@@ -29,6 +31,10 @@ public class Login : MonoBehaviour
 
     IEnumerator LoginCo()
     {
+        _loginButton.interactable = false;
+        _registerButton.interactable = false;
+        _username.interactable = false;
+        _password.interactable = false;
         WWWForm form = new WWWForm();
         form.AddField("username", _username.text);
         form.AddField("password", _password.text);
@@ -39,10 +45,18 @@ public class Login : MonoBehaviour
         if (req.downloadHandler.text == "0")
         {
             DBManager.LoadUser(_username.text);
+            _loginButton.interactable = false;
+            _registerButton.interactable = false;
+            _username.interactable = false;
+            _password.interactable = false;
             Debug.Log("User successfully logged");
         }
         else
         {
+            _loginButton.interactable = true;
+            _registerButton.interactable = true;
+            _username.interactable = true;
+            _password.interactable = true;
             Debug.Log("User login failed: # " + req.downloadHandler.text);
         }
     }
