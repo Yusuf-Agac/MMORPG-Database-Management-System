@@ -12,12 +12,16 @@ public class Register : MonoBehaviour
     private Button _registerButton;
     private Button _loginButton;
 
+    private GameObject LoadingAnim;
+
     void Start()
     {
         _username = GameObject.Find("Username").GetComponent<TMP_InputField>();
         _password = GameObject.Find("Password").GetComponent<TMP_InputField>();
         _registerButton = GameObject.Find("Register").GetComponent<Button>();
         _loginButton = GameObject.Find("Login").GetComponent<Button>();
+        LoadingAnim = GameObject.Find("RegisterAnim").gameObject;
+        LoadingAnim.SetActive(false);
     }
 
     public void RegisterButton()
@@ -31,6 +35,8 @@ public class Register : MonoBehaviour
         _loginButton.interactable = false;
         _username.interactable = false;
         _password.interactable = false;
+        LoadingAnim.SetActive(true);
+        
         WWWForm form = new WWWForm();
         form.AddField("username", _username.text);
         form.AddField("password", _password.text);
@@ -38,6 +44,7 @@ public class Register : MonoBehaviour
         UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", form);
         req.downloadHandler = new DownloadHandlerBuffer();
         yield return req.SendWebRequest();
+        yield return new WaitForSeconds(3f);
         
         if (req.downloadHandler.text == "0")
         {
@@ -51,6 +58,7 @@ public class Register : MonoBehaviour
         _loginButton.interactable = true;
         _username.interactable = true;
         _password.interactable = false;
+        LoadingAnim.SetActive(false);
     }
 
     public void VerifyRules()
