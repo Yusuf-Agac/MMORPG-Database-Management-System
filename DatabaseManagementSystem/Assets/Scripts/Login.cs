@@ -13,7 +13,7 @@ public class Login : MonoBehaviour
     private TMP_InputField _password;
     private Button _loginButton;
     private Button _registerButton;
-    
+    private DBManager _dbManager;
     private GameObject LoadingAnim;
     
     // Start is called before the first frame update
@@ -24,6 +24,7 @@ public class Login : MonoBehaviour
         _loginButton = GameObject.Find("Login").GetComponent<Button>();
         _registerButton = GameObject.Find("Register").GetComponent<Button>();
         LoadingAnim = GameObject.Find("LoginAnim").gameObject;
+        _dbManager = GetComponent<DBManager>();
         LoadingAnim.SetActive(false);
     }
 
@@ -46,11 +47,11 @@ public class Login : MonoBehaviour
         UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/login.php", form);
         
         yield return req.SendWebRequest();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         
         if (req.downloadHandler.text == "0")
         {
-            DBManager.LoadUser(_username.text);
+            _dbManager.LoadUser(_username.text);
             _loginButton.interactable = false;
             _registerButton.interactable = false;
             _username.interactable = false;
@@ -71,7 +72,7 @@ public class Login : MonoBehaviour
 
     public void VerifyRules()
     {
-        _loginButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8);
+        //_loginButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8);
     }
 }
 

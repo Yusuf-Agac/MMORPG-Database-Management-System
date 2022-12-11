@@ -7,6 +7,15 @@ TagManager:
   - UsernameUI
   - Axe
   - Coin
+  - Inventory
+  - Armor
+  - Belt
+  - Book
+  - Boot
+  - Gem
+  - Shield
+  - Shoulder
+  - Sword
   layers:
   - Default
   - TransparentFX
