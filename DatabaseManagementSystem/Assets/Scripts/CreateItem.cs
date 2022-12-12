@@ -13,8 +13,6 @@ public class CreateItem : MonoBehaviour
     public TMP_Dropdown ItemIndexDD;
     private Inventory _inventory;
 
-    public GameObject ItemPrefab;
-    
     private void Start()
     {
         _dbManager = GameObject.Find("Canvas").GetComponent<DBManager>();
@@ -40,18 +38,13 @@ public class CreateItem : MonoBehaviour
         
         if (req.downloadHandler.text == "0")
         {
-            LoadItemToUI(itemIndex, itemName);
+            //_inventory.LoadItemToUI(itemIndex, itemName);
+            // gride ve item gride ekle
             Debug.Log("Item successfully created");
         }
         else
         {
             Debug.Log("Item creation failed: # " + req.downloadHandler.text);
         }
-    }
-
-    public void LoadItemToUI(int itemIndex, string itemName)
-    {
-        Debug.Log(_inventory.grid[itemIndex].name);
-        Instantiate(ItemPrefab, _inventory.grid[itemIndex-1].transform);
     }
 }

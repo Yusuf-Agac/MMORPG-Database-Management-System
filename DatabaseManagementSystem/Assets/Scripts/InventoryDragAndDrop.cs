@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -14,12 +15,14 @@ public class InventoryDragAndDrop : MonoBehaviour
     public LayerMask layerMaskInventoryGrid;
     private Camera _cam;
     private Canvas _canvas;
+    private Inventory _inventory;
     
     void Start()
     {
         _isLocked = false;
         _cam = Camera.main;
         _canvas = transform.parent.parent.GetComponent<Canvas>();
+        _inventory = GetComponent<Inventory>();
     }
 
 
@@ -50,10 +53,13 @@ public class InventoryDragAndDrop : MonoBehaviour
         
         if (Physics.Raycast(ray, out hit, 100, layerMaskInventoryGrid))
         {
-            _isLocked = true;
-            _lockedObject = hit.transform.GetChild(0).gameObject;
-            _lockedObjectsParent = _lockedObject.transform.parent.gameObject;
-            _lockedObject.transform.SetParent(_canvas.transform);
+            if (hit.transform.GetChild(0))
+            {
+                _isLocked = true;
+                _lockedObject = hit.transform.GetChild(0).gameObject;
+                _lockedObjectsParent = _lockedObject.transform.parent.gameObject;
+                _lockedObject.transform.SetParent(_canvas.transform);
+            }
         }
     }
     
@@ -62,12 +68,32 @@ public class InventoryDragAndDrop : MonoBehaviour
         Ray ray = _cam.ScreenPointToRay(_mousePos);
         RaycastHit hit;
         
-        if (Physics.Raycast(ray, out hit, 100, layerMaskInventoryGrid) && hit.transform.childCount > 0)
+        if (Physics.Raycast(ray, out hit, 100, layerMaskInventoryGrid))
         {
-            hit.transform.GetChild(0).SetParent(_lockedObjectsParent.transform);
-            _lockedObject.transform.SetParent(hit.transform);
-            hit.transform.GetChild(0).transform.localPosition = Vector3.zero;
-            _lockedObjectsParent.transform.GetChild(0).localPosition = Vector3.zero;
+            if (_lockedObject)
+            {
+                if (hit.transform.childCount > 0)
+                {
+                    hit.transform.GetChild(0).SetParent(_lockedObjectsParent.transform);
+                }
+                _lockedObject.transform.SetParent(hit.transform);
+                hit.transform.GetChild(0).transform.localPosition = Vector3.zero;
+                if (_lockedObjectsParent.transform.childCount > 0)
+                {
+                    _lockedObjectsParent.transform.GetChild(0).localPosition = Vector3.zero;
+                }
+
+                if (hit.transform.childCount > 0 && _lockedObjectsParent.transform.childCount > 0)
+                {
+                    ItemInfo item1 = hit.transform.GetChild(0).GetComponent<ItemInfo>(), item2 = _lockedObjectsParent.transform.GetChild(0).GetComponent<ItemInfo>();
+                    int tmpIndex = item1.ItemIndex;
+                    Debug.Log(item1.ItemID.ToString() + " " + item1.ItemIndex + "----" + item2.ItemID.ToString() + " " + item2.ItemIndex);
+                    SwapItemFunc(item1.ItemID, item2.ItemIndex);
+                    SwapItemFunc(item2.ItemID, tmpIndex);
+                }
+                    
+            }
+
             _lockedObjectsParent = null;
             _isLocked = false;
         }
@@ -77,6 +103,31 @@ public class InventoryDragAndDrop : MonoBehaviour
             _lockedObject.transform.SetParent(_lockedObjectsParent.transform);
             _lockedObject.transform.localPosition = Vector3.zero;
             _lockedObjectsParent = null;
+        }
+    }
+    
+    public void SwapItemFunc(int itemID, int itemIndex)
+    {
+        StartCoroutine(SwapItemCo(itemID, itemIndex));
+    }
+
+    IEnumerator SwapItemCo(int itemID, int itemIndex)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("itemID", itemID);
+        form.AddField("ItemIndex", itemIndex);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/swapItemIndex.php", form);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text == "0")
+        {
+            Debug.Log("Item successfully swapped");
+        }
+        else
+        {
+            Debug.Log("Item swapping failed: # " + req.downloadHandler.text);
         }
     }
 }
