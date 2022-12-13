@@ -505,16 +505,6 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: 20
       m_Image: {fileID: 0}
-    - m_Text: 21
-      m_Image: {fileID: 0}
-    - m_Text: 22
-      m_Image: {fileID: 0}
-    - m_Text: 23
-      m_Image: {fileID: 0}
-    - m_Text: 24
-      m_Image: {fileID: 0}
-    - m_Text: 25
-      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4217,7 +4207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d05e1cf652c77b749b3b4a4e349a900f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemsCounter: 0
   items: []
+  gridIndexCounter: 0
   grid: []
 --- !u!1001 &1396981833
 PrefabInstance:

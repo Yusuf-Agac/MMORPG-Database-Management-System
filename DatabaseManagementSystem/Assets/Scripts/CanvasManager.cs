@@ -22,7 +22,6 @@ public  class CanvasManager : MonoBehaviour
     {
         _inGame.SetActive(true);
         _loginAndRegister.SetActive(false);
-        _inventory.CreateGridArray();
         Debug.Log("Inventory created successfully");
     }
 }

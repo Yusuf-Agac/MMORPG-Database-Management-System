@@ -53,7 +53,7 @@ public class InventoryDragAndDrop : MonoBehaviour
         
         if (Physics.Raycast(ray, out hit, 100, layerMaskInventoryGrid))
         {
-            if (hit.transform.GetChild(0))
+            if (hit.transform.childCount > 0 && hit.transform.GetChild(0))
             {
                 _isLocked = true;
                 _lockedObject = hit.transform.GetChild(0).gameObject;
@@ -91,7 +91,11 @@ public class InventoryDragAndDrop : MonoBehaviour
                     SwapItemFunc(item1.ItemID, item2.ItemIndex);
                     SwapItemFunc(item2.ItemID, tmpIndex);
                 }
-                    
+                else if (hit.transform.childCount > 0)
+                {
+                    ItemInfo item1 = hit.transform.GetChild(0).GetComponent<ItemInfo>();
+                    SwapItemFunc(item1.ItemID, hit.transform.GetComponent<GridPieceInfo>().Index);
+                }
             }
 
             _lockedObjectsParent = null;
@@ -114,7 +118,7 @@ public class InventoryDragAndDrop : MonoBehaviour
     IEnumerator SwapItemCo(int itemID, int itemIndex)
     {
         WWWForm form = new WWWForm();
-        form.AddField("itemID", itemID);
+        form.AddField("ItemID", itemID);
         form.AddField("ItemIndex", itemIndex);
         
         UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/swapItemIndex.php", form);

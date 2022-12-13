@@ -16,10 +16,11 @@ public class Inventory : MonoBehaviour
         public int ID;
         public bool IsEmpty = true;
     }
-    
+    public int itemsCounter = 0;
     public Item[] items;
-    
+    public int gridIndexCounter = 0;
     public GameObject[] grid;
+    
     private Transform _content;
     private int _childrenCount;
 
@@ -31,6 +32,15 @@ public class Inventory : MonoBehaviour
     
     bool result;
     int number;
+
+    private void Awake()
+    {
+        items = new Item[30];
+        for (int i = 0; i < 30; i++)
+        {
+            items[i] = new Item();
+        }
+    }
 
     private void Start()
     {
@@ -47,7 +57,6 @@ public class Inventory : MonoBehaviour
             {"Shoulder", Resources.Load<GameObject>("Prefabs/Shoulder")},
             {"Sword", Resources.Load<GameObject>("Prefabs/Sword")}
         };
-        items = new Item[30];
         _dbManager = GameObject.Find("Canvas").GetComponent<DBManager>();
         _createItem = GetComponent<CreateItem>();
     }
@@ -66,14 +75,15 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        grid = new GameObject[_childrenCount];
-        int indexCounter = 0;
+        grid = new GameObject[_childrenCount + 1];
+        int gridIndexCounter = 0;
         for (int i = 0; i < tempChildrenCount; ++i)
         {
             if (_content.GetChild(i).gameObject.name.Length > 13 && _content.GetChild(i).gameObject.name.Substring(0, 14) == "InventoryPiece")
             {
-                grid[indexCounter] = _content.GetChild(i).gameObject;
-                indexCounter++;
+                grid[gridIndexCounter] = _content.GetChild(i).gameObject;
+                grid[gridIndexCounter].GetComponent<GridPieceInfo>().Index = gridIndexCounter;
+                gridIndexCounter++;
             }
         }
     }
@@ -100,8 +110,8 @@ public class Inventory : MonoBehaviour
     public void LoadItemToUI(int itemIndex, string itemName, int ID, int itemID)
     {
         Debug.Log("Item created on --> " + itemIndex);
-        Debug.Log(grid[itemIndex-1].name);
-        GameObject tmp = Instantiate(ItemPrefab[itemName], grid[itemIndex-1].transform);
+        Debug.Log(grid[itemIndex].name);
+        GameObject tmp = Instantiate(ItemPrefab[itemName], grid[itemIndex].transform);
         ItemInfo tmpItemInfo = tmp.GetComponent<ItemInfo>();   
         tmpItemInfo.ID = ID;
         tmpItemInfo.ItemIndex = itemIndex;
@@ -127,31 +137,13 @@ public class Inventory : MonoBehaviour
         {
             string[] InventoryResult = req.downloadHandler.text.Split('/');
             InventoryResult = InventoryResult.Reverse().Skip(1).Reverse().ToArray();
-            
-            int counter = 0;
+            string[] ItemInfoResult = new string[5];
             foreach (string ItemResult in InventoryResult)
             {
-                string[] ItemInfoResult = ItemResult.Split(',');
-                
-                result = int.TryParse(ItemInfoResult[0], out number);
-                if(result)
-                {
-                    items[counter].ItemID = number;
-                }
-                items[counter].ItemName = ItemInfoResult[1];
-                result = int.TryParse(ItemInfoResult[2], out number);
-                if(result)
-                {
-                    items[counter].ItemIndex = number;
-                }
-                result = int.TryParse(ItemInfoResult[3], out number);
-                if(result)
-                {
-                    items[counter].ID = number;
-                }
-                items[counter].IsEmpty = false;
-                counter++;
-                if(counter==26){break;}
+                ItemInfoResult = ItemResult.Split(',');
+                AddToItemsList(ItemInfoResult);
+                itemsCounter++;
+                if(itemsCounter==26){Debug.Log("Break"); break;}
             }
             LoadInventoryToUI();
         }
@@ -159,5 +151,26 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log("Inventory loading failed: # " + req.downloadHandler.text);
         }
+    }
+
+    public void AddToItemsList(string[] ItemInfoResult)
+    {
+        result = int.TryParse(ItemInfoResult[0], out number);
+        if(result)
+        {
+            items[itemsCounter].ItemID = number;
+        }
+        items[itemsCounter].ItemName = ItemInfoResult[1];
+        result = int.TryParse(ItemInfoResult[2], out number);
+        if(result)
+        {
+            items[itemsCounter].ItemIndex = number;
+        }
+        result = int.TryParse(ItemInfoResult[3], out number);
+        if(result)
+        {
+            items[itemsCounter].ID = number;
+        }
+        items[itemsCounter].IsEmpty = false;
     }
 }

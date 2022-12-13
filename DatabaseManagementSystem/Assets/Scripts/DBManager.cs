@@ -56,6 +56,7 @@ public class DBManager : MonoBehaviour
         {
             ID = req.downloadHandler.text;
             Debug.Log("User ID successfully logged ->>>>> " + ID.ToString());
+            _inventory.CreateGridArray();
             _inventory.LoadInventory();
         }
         else
