@@ -22,7 +22,9 @@ public class Inventory : MonoBehaviour
     public GameObject[] grid;
     
     private Transform _content;
+    private Transform _equipments;
     private int _childrenCount;
+    private int _totalChildrenCount;
 
     private DBManager _dbManager;
     private CreateItem _createItem;
@@ -35,8 +37,8 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        items = new Item[30];
-        for (int i = 0; i < 30; i++)
+        items = new Item[26];
+        for (int i = 0; i < 26; i++)
         {
             items[i] = new Item();
         }
@@ -58,6 +60,7 @@ public class Inventory : MonoBehaviour
             {"Sword", Resources.Load<GameObject>("Prefabs/Sword")}
         };
         _dbManager = GameObject.Find("Canvas").GetComponent<DBManager>();
+        _equipments = GameObject.Find("Canvas").transform.Find("InGame").Find("Inventory").Find("Viewport").Find("Content").Find("Equipments");
         _createItem = GetComponent<CreateItem>();
     }
 
@@ -66,22 +69,35 @@ public class Inventory : MonoBehaviour
     {
         _content = transform.Find("Viewport").Find("Content");
         int tempChildrenCount = _content.childCount;
+        tempChildrenCount += _equipments.childCount;
         _childrenCount = 0;
-        for (int i = 0; i < tempChildrenCount; ++i)
+        _totalChildrenCount = 0;
+        for (int i = 0; i < tempChildrenCount - 1; ++i)
         {
-            if (_content.GetChild(i).gameObject.name.Length > 13 && _content.GetChild(i).gameObject.name.Substring(0, 14) == "InventoryPiece")
+            if (i < 20 && _content.GetChild(i).gameObject.name.Length > 13 && _content.GetChild(i).gameObject.name.Substring(0, 14) == "InventoryPiece")
             {
                 _childrenCount++;
+                _totalChildrenCount++;
+            }
+            else if (i >= 20 && _equipments.childCount - 1 >= (i % 20) && _equipments.GetChild(i % 20).gameObject.name == "Equipment")
+            {
+                _totalChildrenCount++;
             }
         }
 
-        grid = new GameObject[_childrenCount + 1];
+        grid = new GameObject[_totalChildrenCount];
         int gridIndexCounter = 0;
         for (int i = 0; i < tempChildrenCount; ++i)
         {
-            if (_content.GetChild(i).gameObject.name.Length > 13 && _content.GetChild(i).gameObject.name.Substring(0, 14) == "InventoryPiece")
+            if (i < 20 && _content.GetChild(i).gameObject.name.Length > 13 && _content.GetChild(i).gameObject.name.Substring(0, 14) == "InventoryPiece")
             {
                 grid[gridIndexCounter] = _content.GetChild(i).gameObject;
+                grid[gridIndexCounter].GetComponent<GridPieceInfo>().Index = gridIndexCounter;
+                gridIndexCounter++;
+            }
+            else if (i >= 20 && _equipments.childCount - 1 >= (i % 20) && _equipments.GetChild(i % 20).gameObject.name == "Equipment")
+            {
+                grid[gridIndexCounter] = _equipments.GetChild(i % 20).gameObject;
                 grid[gridIndexCounter].GetComponent<GridPieceInfo>().Index = gridIndexCounter;
                 gridIndexCounter++;
             }

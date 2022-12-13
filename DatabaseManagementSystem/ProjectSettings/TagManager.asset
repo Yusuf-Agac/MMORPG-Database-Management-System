@@ -16,6 +16,7 @@ TagManager:
   - Shield
   - Shoulder
   - Sword
+  - InventoryPiece
   layers:
   - Default
   - TransparentFX
