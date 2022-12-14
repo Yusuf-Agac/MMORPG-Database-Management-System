@@ -28,6 +28,7 @@ public class Inventory : MonoBehaviour
 
     private DBManager _dbManager;
     private CreateItem _createItem;
+    private PlayerInfo _playerInfo;
 
     private Dictionary<string, GameObject> ItemPrefab;
 
@@ -62,6 +63,7 @@ public class Inventory : MonoBehaviour
         _dbManager = GameObject.Find("Canvas").GetComponent<DBManager>();
         _equipments = GameObject.Find("Canvas").transform.Find("InGame").Find("Inventory").Find("Viewport").Find("Content").Find("Equipments");
         _createItem = GetComponent<CreateItem>();
+        _playerInfo = _playerInfo = GameObject.Find("Canvas").GetComponent<PlayerInfo>();
     }
 
     // Creating grid array with objects named InventoryPiece
@@ -143,7 +145,7 @@ public class Inventory : MonoBehaviour
     IEnumerator LoadInventoryCo()
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", _dbManager.ID);
+        form.AddField("ID", _playerInfo.ID);
         
         UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getInventory.php", form);
         
