@@ -19,12 +19,18 @@ public class PlayerInfo : MonoBehaviour
     public string ProfilePicture;
 
     private ExpProgressBar _expProgressBar;
+    private HealthAndManaProgressBar _healthAndManaProgressBar;
     private Text _levelText;
+    private DBManager _dbManager;
+    private CanvasManager _canvasManager;
 
     private void Start()
     {
         _expProgressBar = GameObject.Find("Canvas").GetComponent<ExpProgressBar>();
         _levelText = GameObject.Find("Canvas").transform.Find("InGame").Find("CharacterProfile").Find("Level").Find("Text").GetComponent<Text>();
+        _healthAndManaProgressBar = GameObject.Find("Canvas").GetComponent<HealthAndManaProgressBar>();
+        _dbManager = GameObject.Find("Canvas").GetComponent<DBManager>();
+        _canvasManager = GameObject.Find("Canvas").GetComponent<CanvasManager>();
     }
 
     public void LoadLevelToUI()
@@ -32,7 +38,7 @@ public class PlayerInfo : MonoBehaviour
         _levelText.text = Level.ToString();
     }
     
-    public void GetXp()
+    public void GainExperience()
     {
         Experience += 30;
         if (Experience >= (Level * 100))
@@ -41,56 +47,97 @@ public class PlayerInfo : MonoBehaviour
             LevelUp();
         }
         _expProgressBar.UpdateProgressBar();
-        StartCoroutine(LoadXpCo());
+        StartCoroutine(_dbManager.UpdateExperienceCo());
+    }
+    
+    public void GetDamage()
+    {
+        Health -= 5;
+        if (Health < 0)
+        {
+            Health = 1;
+        }
+        Debug.Log("Health -> " + Health);
+        _healthAndManaProgressBar.UpdateProgressBar();
+        StartCoroutine(_dbManager.UpdateHealthAndManaCo());
+    }
+    
+    public void ConsumeMana()
+    {
+        Mana -= 5;
+        if (Mana < 0)
+        {
+            Mana = 1;
+        }
+        Debug.Log("Mana -> " + Mana);
+        _healthAndManaProgressBar.UpdateProgressBar();
+        StartCoroutine(_dbManager.UpdateHealthAndManaCo());
+    }
+    
+    public void GetHeal()
+    {
+        Health += 5;
+        if (Health > MaxHealth)
+        {
+            Health = MaxHealth;
+        }
+        Debug.Log("Health -> " + Health);
+        _healthAndManaProgressBar.UpdateProgressBar();
+        StartCoroutine(_dbManager.UpdateHealthAndManaCo());
+    }
+    
+    public void GetMana()
+    {
+        Mana += 5;
+        if (Mana > MaxMana)
+        {
+            Mana = MaxMana;
+        }
+        Debug.Log("Mana -> " + Mana);
+        _healthAndManaProgressBar.UpdateProgressBar();
+        StartCoroutine(_dbManager.UpdateHealthAndManaCo());
     }
 
-    private void LevelUp()
+    public void LevelUp()
     {
         Level++;
         _expProgressBar.UpdateProgressBar();
         LoadLevelToUI();
-        StartCoroutine(LevelUpCo());
+        StartCoroutine(_dbManager.UpdateLevelCo());
     }
     
-    // ReSharper disable Unity.PerformanceAnalysis
-    IEnumerator LevelUpCo()
+    public void GetHealthMana()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", ID);
-        form.AddField("NewLevel", Level);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserLvlUp.php", form);
-        
-        yield return req.SendWebRequest();
-        
-        if (req.downloadHandler.text == "0")
-        {
-            Debug.Log("User LVL UP successfully");
-        }
-        else
-        {
-            Debug.Log("User LVL failed: # " + req.downloadHandler.text);
-        }
+        StartCoroutine(_dbManager.GetHealthManaCo());
     }
     
-    // ReSharper disable Unity.PerformanceAnalysis
-    private IEnumerator LoadXpCo()
+    public void GetLevel()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", ID);
-        form.AddField("NewXP", Experience);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserXpUpdate.php", form);
-        
-        yield return req.SendWebRequest();
-        
-        if (req.downloadHandler.text == "0")
-        {
-            Debug.Log("User XP Update successfully");
-        }
-        else
-        {
-            Debug.Log("User XP Update failed: # " + req.downloadHandler.text);
-        }
+        StartCoroutine(_dbManager.GetLevelCo());
+    }
+    
+    public void GetExperience()
+    {
+        StartCoroutine(_dbManager.GetExperienceCo());
+    }
+    
+    public void GetID()
+    {
+        StartCoroutine(_dbManager.GetIDCo());
+    }
+    
+    public void LoadUser()
+    {
+        _canvasManager.InGameOpen();
+        LoadUsernameToUI();
+        Debug.Log("User load successfully");
+        GetID();
+        Debug.Log("ID load successfully");
+    }
+    
+    private void LoadUsernameToUI()
+    {
+        GameObject.FindWithTag("UsernameUI").GetComponent<TMPro.TextMeshProUGUI>().text = Username;
+        Debug.Log("Username load successfully");
     }
 }

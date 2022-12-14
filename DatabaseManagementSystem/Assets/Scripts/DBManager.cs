@@ -4,46 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class DBManager : MonoBehaviour
 {
-    private GameObject _canvas;
     private Inventory _inventory;
-    private CanvasManager _canvasManager;
     private PlayerInfo _playerInfo;
     private ExpProgressBar _expProgressBar;
+    private HealthAndManaProgressBar _healthAndManaProgressBar;
 
     void Start()
     {
-        _canvas = GameObject.Find("Canvas");
-        _canvasManager = GameObject.Find("Canvas").GetComponent<CanvasManager>();
         _inventory = transform.Find("InGame").Find("Inventory").GetComponent<Inventory>();
         _expProgressBar = GameObject.Find("Canvas").GetComponent<ExpProgressBar>();
         _playerInfo = GameObject.Find("Canvas").GetComponent<PlayerInfo>();
+        _healthAndManaProgressBar = GameObject.Find("Canvas").GetComponent<HealthAndManaProgressBar>();
     }
 
-    public void LoadUser(string username)
-    {
-        _canvasManager.InGameOpen();
-        LoadUsername(username);
-        Debug.Log("User load successfully");
-        LoadID();
-        Debug.Log("ID load successfully");
-    }
-    
-    private void LoadUsername(string input)
-    {
-        _playerInfo.Username = input;
-        GameObject.FindWithTag("UsernameUI").GetComponent<TMPro.TextMeshProUGUI>().text = _playerInfo.Username;
-        Debug.Log("Username load successfully");
-    }
-    
-    private void LoadID()
-    {
-        StartCoroutine(LoadIDCo());
-    }
-
-    IEnumerator LoadIDCo()
+    public IEnumerator GetIDCo()
     {
         WWWForm form = new WWWForm();
         form.AddField("Username", _playerInfo.Username);
@@ -58,20 +36,16 @@ public class DBManager : MonoBehaviour
             Debug.Log("User ID successfully logged -> " + _playerInfo.ID.ToString());
             _inventory.CreateGridArray();
             _inventory.LoadInventory();
-            LoadXP();
+            _playerInfo.GetExperience();
+            _playerInfo.GetHealthMana();
         }
         else
         {
             Debug.Log("User login failed: # " + req.downloadHandler.text);
         }
     }
-    
-    private void LoadXP()
-    {
-        StartCoroutine(LoadXPCo());
-    }
 
-    IEnumerator LoadXPCo()
+    public IEnumerator GetExperienceCo()
     {
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
@@ -88,20 +62,15 @@ public class DBManager : MonoBehaviour
                 _playerInfo.Experience = number;
             }
             Debug.Log("User XP successfully logged -> " + req.downloadHandler.text);
-            LoadLVL();
+            _playerInfo.GetLevel();
         }
         else
         {
             Debug.Log("User Exp failed: # " + req.downloadHandler.text);
         }
     }
-    
-    private void LoadLVL()
-    {
-        StartCoroutine(LoadLVLCo());
-    }
 
-    IEnumerator LoadLVLCo()
+    public IEnumerator GetLevelCo()
     {
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
@@ -124,6 +93,110 @@ public class DBManager : MonoBehaviour
         else
         {
             Debug.Log("User LVL failed: # " + req.downloadHandler.text);
+        }
+    }
+
+    public IEnumerator GetHealthManaCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getHealthMana.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text != "400")
+        {
+            string[] resultOfQuery = new string[4];
+            resultOfQuery = req.downloadHandler.text.Split('/');
+            var result = int.TryParse(resultOfQuery[0], out var number);
+            if(result)
+            {
+                _playerInfo.Health = number;
+            }
+            result = int.TryParse(resultOfQuery[1], out number);
+            if(result)
+            {
+                _playerInfo.Mana = number;
+            }
+            result = int.TryParse(resultOfQuery[2], out number);
+            if(result)
+            {
+                _playerInfo.MaxHealth = number;
+            }
+            result = int.TryParse(resultOfQuery[3], out number);
+            if(result)
+            {
+                _playerInfo.MaxMana = number;
+            }
+            _healthAndManaProgressBar.UpdateProgressBar();
+            Debug.Log("User LVL successfully logged -> " + req.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log("User LVL failed: # " + req.downloadHandler.text);
+        }
+    }
+    
+    public IEnumerator UpdateLevelCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        form.AddField("NewLevel", _playerInfo.Level);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserLvlUp.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text == "0")
+        {
+            Debug.Log("User LVL UP successfully");
+        }
+        else
+        {
+            Debug.Log("User LVL failed: # " + req.downloadHandler.text);
+        }
+    }
+    
+    public IEnumerator UpdateExperienceCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        form.AddField("NewXP", _playerInfo.Experience);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserXpUpdate.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text == "0")
+        {
+            Debug.Log("User XP Update successfully");
+        }
+        else
+        {
+            Debug.Log("User XP Update failed: # " + req.downloadHandler.text);
+        }
+    }
+    
+    public IEnumerator UpdateHealthAndManaCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        form.AddField("NewHealth", _playerInfo.Health);
+        form.AddField("NewMana", _playerInfo.Mana);
+        
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserHealthManaUpdate.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text == "0")
+        {
+            Debug.Log("User HealthMana Update successfully");
+        }
+        else
+        {
+            Debug.Log("User HealthMana Update failed: # " + req.downloadHandler.text);
         }
     }
 }

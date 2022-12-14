@@ -14,7 +14,7 @@ public class ExpProgressBar : MonoBehaviour
     private void Start()
     {
         _localScale = Vector3.one;
-        _expProgressBarTransform = GameObject.Find("Canvas").transform.Find("InGame").Find("XPBar").Find("XPBarMask").GetComponent<RectTransform>();
+        _expProgressBarTransform = GameObject.Find("Canvas").transform.Find("InGame").Find("ExperienceBar").Find("ExperienceBarMask").GetComponent<RectTransform>();
         _playerInfo = GameObject.Find("Canvas").GetComponent<PlayerInfo>();
     }
 

@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Networking;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class Login : MonoBehaviour
@@ -13,7 +10,7 @@ public class Login : MonoBehaviour
     private TMP_InputField _password;
     private Button _loginButton;
     private Button _registerButton;
-    private DBManager _dbManager;
+    private PlayerInfo _playerInfo;
     private GameObject LoadingAnim;
     
     // Start is called before the first frame update
@@ -24,7 +21,7 @@ public class Login : MonoBehaviour
         _loginButton = GameObject.Find("Login").GetComponent<Button>();
         _registerButton = GameObject.Find("Register").GetComponent<Button>();
         LoadingAnim = GameObject.Find("LoginAnim").gameObject;
-        _dbManager = GetComponent<DBManager>();
+        _playerInfo = GetComponent<PlayerInfo>();
         LoadingAnim.SetActive(false);
     }
 
@@ -51,7 +48,8 @@ public class Login : MonoBehaviour
         
         if (req.downloadHandler.text == "0")
         {
-            _dbManager.LoadUser(_username.text);
+            _playerInfo.Username = _username.text;
+            _playerInfo.LoadUser();
             _loginButton.interactable = false;
             _registerButton.interactable = false;
             _username.interactable = false;
