@@ -60,16 +60,16 @@ public class Inventory : MonoBehaviour
             {"Shoulder", Resources.Load<GameObject>("Prefabs/Shoulder")},
             {"Sword", Resources.Load<GameObject>("Prefabs/Sword")}
         };
-        _dbManager = GameObject.Find("Canvas").GetComponent<DBManager>();
-        _equipments = GameObject.Find("Canvas").transform.Find("InGame").Find("Inventory").Find("Viewport").Find("Content").Find("Equipments");
+        _dbManager = GetComponent<DBManager>();
         _createItem = GetComponent<CreateItem>();
-        _playerInfo = _playerInfo = GameObject.Find("Canvas").GetComponent<PlayerInfo>();
+        _playerInfo = GetComponent<PlayerInfo>();
     }
 
     // Creating grid array with objects named InventoryPiece
     public void CreateGridArray()
     {
-        _content = transform.Find("Viewport").Find("Content");
+        _equipments = GameObject.Find("Canvas").transform.Find("InGame").Find("Inventory").Find("Viewport").Find("Content").Find("Equipments");
+        _content = GameObject.Find("Canvas").transform.Find("InGame").Find("Inventory").Find("Viewport").Find("Content");
         int tempChildrenCount = _content.childCount;
         tempChildrenCount += _equipments.childCount;
         _childrenCount = 0;

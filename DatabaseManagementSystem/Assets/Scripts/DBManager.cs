@@ -12,13 +12,15 @@ public class DBManager : MonoBehaviour
     private PlayerInfo _playerInfo;
     private ExpProgressBar _expProgressBar;
     private HealthAndManaProgressBar _healthAndManaProgressBar;
+    private ChangeProfileImage _changeProfileImage;
 
     void Start()
     {
-        _inventory = transform.Find("InGame").Find("Inventory").GetComponent<Inventory>();
-        _expProgressBar = GameObject.Find("Canvas").GetComponent<ExpProgressBar>();
-        _playerInfo = GameObject.Find("Canvas").GetComponent<PlayerInfo>();
-        _healthAndManaProgressBar = GameObject.Find("Canvas").GetComponent<HealthAndManaProgressBar>();
+        _inventory = GetComponent<Inventory>();
+        _expProgressBar = GetComponent<ExpProgressBar>();
+        _playerInfo = GetComponent<PlayerInfo>();
+        _healthAndManaProgressBar = GetComponent<HealthAndManaProgressBar>();
+        _changeProfileImage = GetComponent<ChangeProfileImage>();
     }
 
     public IEnumerator GetIDCo()
@@ -38,6 +40,7 @@ public class DBManager : MonoBehaviour
             _inventory.LoadInventory();
             _playerInfo.GetExperience();
             _playerInfo.GetHealthMana();
+            _playerInfo.GetProfilePicture();
         }
         else
         {
@@ -138,6 +141,27 @@ public class DBManager : MonoBehaviour
         }
     }
     
+    public IEnumerator GetProfilePictureCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getProfilePicture.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text != "400")
+        {
+            _playerInfo.ProfilePicture = req.downloadHandler.text;
+            _changeProfileImage.UpdateProfilePicture();
+            Debug.Log("User ProfilePicture successfully receipt -> " + _playerInfo.ID.ToString());
+        }
+        else
+        {
+            Debug.LogError("User ProfilePicture receipt failed: # " + req.downloadHandler.text);
+        }
+    }
+    
     public IEnumerator UpdateLevelCo()
     {
         WWWForm form = new WWWForm();
@@ -202,7 +226,6 @@ public class DBManager : MonoBehaviour
     
     public IEnumerator UpdateMaxHealthAndMaxManaCo()
     {
-        Debug.LogWarning("sadasdasd");
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
         form.AddField("NewHealth", _playerInfo.MaxHealth);
@@ -219,6 +242,26 @@ public class DBManager : MonoBehaviour
         else
         {
             Debug.LogError("User MaxHealthMaxMana Update failed: # " + req.downloadHandler.text);
+        }
+    }
+    
+    public IEnumerator UpdateProfilePictureCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        form.AddField("NewProfilePicture", _playerInfo.ProfilePicture);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserProfilePictureUpdate.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text == "0")
+        {
+            Debug.Log("User ProfilePicture Update successfully");
+        }
+        else
+        {
+            Debug.LogError("User ProfilePicture Update failed: # " + req.downloadHandler.text);
         }
     }
 }

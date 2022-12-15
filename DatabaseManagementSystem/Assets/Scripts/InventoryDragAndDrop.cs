@@ -21,7 +21,7 @@ public class InventoryDragAndDrop : MonoBehaviour
     {
         _isLocked = false;
         _cam = Camera.main;
-        _canvas = transform.parent.parent.GetComponent<Canvas>();
+        _canvas = GetComponent<Canvas>();
         _inventory = GetComponent<Inventory>();
     }
 

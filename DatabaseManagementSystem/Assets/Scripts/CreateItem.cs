@@ -13,9 +13,9 @@ public class CreateItem : MonoBehaviour
 
     private void Start()
     {
-        _dbManager = GameObject.Find("Canvas").GetComponent<DBManager>();
+        _dbManager = GetComponent<DBManager>();
         _inventory = GetComponent<Inventory>();
-        _playerInfo = GameObject.Find("Canvas").GetComponent<PlayerInfo>();
+        _playerInfo = GetComponent<PlayerInfo>();
     }
 
     public void CreateItemFunc()

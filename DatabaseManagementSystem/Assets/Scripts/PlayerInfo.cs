@@ -26,11 +26,11 @@ public class PlayerInfo : MonoBehaviour
 
     private void Start()
     {
-        _expProgressBar = GameObject.Find("Canvas").GetComponent<ExpProgressBar>();
+        _expProgressBar = GetComponent<ExpProgressBar>();
         _levelText = GameObject.Find("Canvas").transform.Find("InGame").Find("CharacterProfile").Find("Level").Find("Text").GetComponent<Text>();
-        _healthAndManaProgressBar = GameObject.Find("Canvas").GetComponent<HealthAndManaProgressBar>();
-        _dbManager = GameObject.Find("Canvas").GetComponent<DBManager>();
-        _canvasManager = GameObject.Find("Canvas").GetComponent<CanvasManager>();
+        _healthAndManaProgressBar = GetComponent<HealthAndManaProgressBar>();
+        _dbManager = GetComponent<DBManager>();
+        _canvasManager = GetComponent<CanvasManager>();
     }
 
     public void LoadLevelToUI()
@@ -129,6 +129,11 @@ public class PlayerInfo : MonoBehaviour
     public void GetID()
     {
         StartCoroutine(_dbManager.GetIDCo());
+    }
+    
+    public void GetProfilePicture()
+    {
+        StartCoroutine(_dbManager.GetProfilePictureCo());
     }
     
     public void LoadUser()
