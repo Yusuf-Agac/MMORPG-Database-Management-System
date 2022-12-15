@@ -28,6 +28,6 @@ public class ExpProgressBar : MonoBehaviour
     {
         _localScale = new Vector3((float)_playerInfo.Experience / (float)(_playerInfo.Level * 100), _localScale.y, _localScale.z);
         
-        Debug.Log("XP/Local Scale X: " + _localScale.x + "/Experience: " + _playerInfo.Experience + "/Level: " + _playerInfo.Level.ToString());
+        Debug.Log("Experience: " + _playerInfo.Experience + "/Level: " + _playerInfo.Level.ToString());
     }
 }

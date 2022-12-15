@@ -127,8 +127,7 @@ public class Inventory : MonoBehaviour
     
     public void LoadItemToUI(int itemIndex, string itemName, int ID, int itemID)
     {
-        Debug.Log("Item created on --> " + itemIndex);
-        Debug.Log(grid[itemIndex].name);
+        //Debug.Log("Item created on --> " + itemIndex);
         GameObject tmp = Instantiate(ItemPrefab[itemName], grid[itemIndex].transform);
         ItemInfo tmpItemInfo = tmp.GetComponent<ItemInfo>();   
         tmpItemInfo.ID = ID;
@@ -167,7 +166,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Debug.Log("Inventory loading failed: # " + req.downloadHandler.text);
+            Debug.LogError("Inventory loading failed: # " + req.downloadHandler.text);
         }
     }
 

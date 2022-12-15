@@ -104,6 +104,11 @@ public class PlayerInfo : MonoBehaviour
         _expProgressBar.UpdateProgressBar();
         LoadLevelToUI();
         StartCoroutine(_dbManager.UpdateLevelCo());
+        MaxHealth = Level * 100;
+        MaxMana = Level * 100;
+        StartCoroutine(_dbManager.UpdateMaxHealthAndMaxManaCo());
+        _healthAndManaProgressBar.UpdateProgressBar();
+        Debug.Log("LevelUp -> " + Level);
     }
     
     public void GetHealthMana()

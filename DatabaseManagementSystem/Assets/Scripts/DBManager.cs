@@ -41,7 +41,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("User login failed: # " + req.downloadHandler.text);
+            Debug.LogError("User login failed: # " + req.downloadHandler.text);
         }
     }
 
@@ -61,12 +61,12 @@ public class DBManager : MonoBehaviour
             {
                 _playerInfo.Experience = number;
             }
-            Debug.Log("User XP successfully logged -> " + req.downloadHandler.text);
+            Debug.Log("User XP successfully receipt -> " + req.downloadHandler.text);
             _playerInfo.GetLevel();
         }
         else
         {
-            Debug.Log("User Exp failed: # " + req.downloadHandler.text);
+            Debug.LogError("User XP receipt failed: # " + req.downloadHandler.text);
         }
     }
 
@@ -87,12 +87,12 @@ public class DBManager : MonoBehaviour
                 _playerInfo.Level = number;
                 _playerInfo.LoadLevelToUI();
             }
-            Debug.Log("User LVL successfully logged -> " + req.downloadHandler.text);
+            Debug.Log("User LVL successfully receipt -> " + req.downloadHandler.text);
             _expProgressBar.UpdateProgressBar();
         }
         else
         {
-            Debug.Log("User LVL failed: # " + req.downloadHandler.text);
+            Debug.LogError("User LVL receipt failed: # " + req.downloadHandler.text);
         }
     }
 
@@ -130,11 +130,11 @@ public class DBManager : MonoBehaviour
                 _playerInfo.MaxMana = number;
             }
             _healthAndManaProgressBar.UpdateProgressBar();
-            Debug.Log("User LVL successfully logged -> " + req.downloadHandler.text);
+            Debug.Log("User HealthMana successfully receipt -> " + req.downloadHandler.text);
         }
         else
         {
-            Debug.Log("User LVL failed: # " + req.downloadHandler.text);
+            Debug.LogError("User HealthMana receipt failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -154,7 +154,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("User LVL failed: # " + req.downloadHandler.text);
+            Debug.LogError("User LVL UP failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -174,7 +174,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("User XP Update failed: # " + req.downloadHandler.text);
+            Debug.LogError("User XP Update failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -196,7 +196,29 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("User HealthMana Update failed: # " + req.downloadHandler.text);
+            Debug.LogError("User HealthMana Update failed: # " + req.downloadHandler.text);
+        }
+    }
+    
+    public IEnumerator UpdateMaxHealthAndMaxManaCo()
+    {
+        Debug.LogWarning("sadasdasd");
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        form.AddField("NewHealth", _playerInfo.MaxHealth);
+        form.AddField("NewMana", _playerInfo.MaxMana);
+
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserMaxHealthMaxManaUpdate.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text == "0")
+        {
+            Debug.Log("User MaxHealthMaxMana Update successfully");
+        }
+        else
+        {
+            Debug.LogError("User MaxHealthMaxMana Update failed: # " + req.downloadHandler.text);
         }
     }
 }
