@@ -13,6 +13,7 @@ public class DBManager : MonoBehaviour
     private ExpProgressBar _expProgressBar;
     private HealthAndManaProgressBar _healthAndManaProgressBar;
     private ChangeProfileImage _changeProfileImage;
+    private FriendList _friendList;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class DBManager : MonoBehaviour
         _playerInfo = GetComponent<PlayerInfo>();
         _healthAndManaProgressBar = GetComponent<HealthAndManaProgressBar>();
         _changeProfileImage = GetComponent<ChangeProfileImage>();
+        _friendList = GetComponent<FriendList>();
     }
 
     public IEnumerator GetIDCo()
@@ -41,6 +43,7 @@ public class DBManager : MonoBehaviour
             _playerInfo.GetExperience();
             _playerInfo.GetHealthMana();
             _playerInfo.GetProfilePicture();
+            _friendList.LoadFriendList();
         }
         else
         {

@@ -163,6 +163,7 @@ public class Inventory : MonoBehaviour
                 if(itemsCounter==26){Debug.Log("Break"); break;}
             }
             LoadInventoryToUI();
+            Debug.Log("Inventory loaded successfully");
         }
         else
         {

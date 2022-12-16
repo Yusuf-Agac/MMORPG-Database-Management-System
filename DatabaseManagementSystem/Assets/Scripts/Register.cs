@@ -57,7 +57,7 @@ public class Register : MonoBehaviour
         _registerButton.interactable = true;
         _loginButton.interactable = true;
         _username.interactable = true;
-        _password.interactable = false;
+        _password.interactable = true;
         LoadingAnim.SetActive(false);
     }
 
