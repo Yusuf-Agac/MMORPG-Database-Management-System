@@ -17,6 +17,8 @@ TagManager:
   - Shoulder
   - Sword
   - InventoryPiece
+  - HealthSprite
+  - SkillsPiece
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - Water
   - UI
   - InventroyGrid
-  - 
+  - Skills
   - 
   - 
   - 

@@ -16,9 +16,8 @@ public class Inventory : MonoBehaviour
         public int ID;
         public bool IsEmpty = true;
     }
-    public int itemsCounter = 0;
+    private int _itemsCounter = 0;
     public Item[] items;
-    public int gridIndexCounter = 0;
     public GameObject[] grid;
     
     private Transform _content;
@@ -159,8 +158,8 @@ public class Inventory : MonoBehaviour
             {
                 ItemInfoResult = ItemResult.Split(',');
                 AddToItemsList(ItemInfoResult);
-                itemsCounter++;
-                if(itemsCounter==26){Debug.Log("Break"); break;}
+                _itemsCounter++;
+                if(_itemsCounter==26){Debug.Log("Break"); break;}
             }
             LoadInventoryToUI();
             Debug.Log("Inventory loaded successfully");
@@ -176,19 +175,19 @@ public class Inventory : MonoBehaviour
         result = int.TryParse(ItemInfoResult[0], out number);
         if(result)
         {
-            items[itemsCounter].ItemID = number;
+            items[_itemsCounter].ItemID = number;
         }
-        items[itemsCounter].ItemName = ItemInfoResult[1];
+        items[_itemsCounter].ItemName = ItemInfoResult[1];
         result = int.TryParse(ItemInfoResult[2], out number);
         if(result)
         {
-            items[itemsCounter].ItemIndex = number;
+            items[_itemsCounter].ItemIndex = number;
         }
         result = int.TryParse(ItemInfoResult[3], out number);
         if(result)
         {
-            items[itemsCounter].ID = number;
+            items[_itemsCounter].ID = number;
         }
-        items[itemsCounter].IsEmpty = false;
+        items[_itemsCounter].IsEmpty = false;
     }
 }
