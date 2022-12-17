@@ -62,7 +62,7 @@ public class Login : MonoBehaviour
             _registerButton.interactable = true;
             _username.interactable = true;
             _password.interactable = true;
-            Debug.LogError("User login failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User login failed: # " + req.downloadHandler.text);
         }
         LoadingAnim.SetActive(false);
     }

@@ -58,7 +58,7 @@ public class CreateItem : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Item creation failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("Item creation failed: # " + req.downloadHandler.text);
         }
     }
 }

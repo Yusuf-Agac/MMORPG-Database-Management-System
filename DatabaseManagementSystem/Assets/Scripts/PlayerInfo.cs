@@ -52,7 +52,7 @@ public class PlayerInfo : MonoBehaviour
     
     public void GetDamage()
     {
-        Health -= 5;
+        Health -= MaxHealth / 14;
         if (Health < 0)
         {
             Health = 1;
@@ -64,7 +64,7 @@ public class PlayerInfo : MonoBehaviour
     
     public void ConsumeMana()
     {
-        Mana -= 5;
+        Mana -= MaxMana / 12;
         if (Mana < 0)
         {
             Mana = 1;
@@ -76,7 +76,7 @@ public class PlayerInfo : MonoBehaviour
     
     public void GetHeal()
     {
-        Health += 5;
+        Health += MaxHealth / 8;
         if (Health > MaxHealth)
         {
             Health = MaxHealth;
@@ -88,7 +88,7 @@ public class PlayerInfo : MonoBehaviour
     
     public void GetMana()
     {
-        Mana += 5;
+        Mana += MaxMana / 8;
         if (Mana > MaxMana)
         {
             Mana = MaxMana;

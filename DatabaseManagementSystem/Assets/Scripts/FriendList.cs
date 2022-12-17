@@ -92,7 +92,7 @@ public class FriendList : MonoBehaviour
         }
         else
         {
-            Debug.LogError("FriendList loading failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("FriendList loading failed: # " + req.downloadHandler.text);
         }
     }
 }

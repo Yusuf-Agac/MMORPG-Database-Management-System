@@ -52,7 +52,7 @@ public class Register : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User creation failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User creation failed: # " + req.downloadHandler.text);
         }
         _registerButton.interactable = true;
         _loginButton.interactable = true;

@@ -46,7 +46,7 @@ public class AddFriend : MonoBehaviour
         }
         else
         {
-            Debug.LogError("AddFriend failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("AddFriend failed: # " + req.downloadHandler.text);
         }
     }
 }

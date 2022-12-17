@@ -167,7 +167,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Inventory loading failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("Inventory loading failed: # " + req.downloadHandler.text);
         }
     }
 

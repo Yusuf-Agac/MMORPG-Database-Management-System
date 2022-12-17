@@ -47,7 +47,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User login failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User login failed: # " + req.downloadHandler.text);
         }
     }
 
@@ -72,7 +72,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User XP receipt failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User XP receipt failed: # " + req.downloadHandler.text);
         }
     }
 
@@ -98,7 +98,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User LVL receipt failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User LVL receipt failed: # " + req.downloadHandler.text);
         }
     }
 
@@ -140,7 +140,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User HealthMana receipt failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User HealthMana receipt failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -161,7 +161,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User ProfilePicture receipt failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User ProfilePicture receipt failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -181,7 +181,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User LVL UP failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User LVL UP failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -201,7 +201,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User XP Update failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User XP Update failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -223,7 +223,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User HealthMana Update failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User HealthMana Update failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -244,7 +244,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User MaxHealthMaxMana Update failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User MaxHealthMaxMana Update failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -264,7 +264,7 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("User ProfilePicture Update failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("User ProfilePicture Update failed: # " + req.downloadHandler.text);
         }
     }
 }

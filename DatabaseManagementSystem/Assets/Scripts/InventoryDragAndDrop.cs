@@ -131,7 +131,7 @@ public class InventoryDragAndDrop : MonoBehaviour
         }
         else
         {
-            Debug.Log("Item swapping failed: # " + req.downloadHandler.text);
+            Debug.LogWarning("Item swapping failed: # " + req.downloadHandler.text);
         }
     }
 }
