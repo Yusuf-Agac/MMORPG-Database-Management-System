@@ -121,7 +121,7 @@ public class InventoryDragAndDrop : MonoBehaviour
         form.AddField("ItemID", itemID);
         form.AddField("ItemIndex", itemIndex);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/swapItemIndex.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/SwapItemIndex.php", form);
         req.downloadHandler = new DownloadHandlerBuffer();
         yield return req.SendWebRequest();
         

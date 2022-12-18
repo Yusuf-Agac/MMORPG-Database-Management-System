@@ -32,7 +32,7 @@ public class CreateItem : MonoBehaviour
         form.AddField("ItemIndex", itemIndex);
         form.AddField("ID", _playerInfo.ID.ToString());
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/createItem.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/CreateItem.php", form);
         req.downloadHandler = new DownloadHandlerBuffer();
         yield return req.SendWebRequest();
         
@@ -40,7 +40,7 @@ public class CreateItem : MonoBehaviour
         form2.AddField("ID", _playerInfo.ID);
         form2.AddField("ItemIndex", itemIndex);
         
-        UnityWebRequest req2 = UnityWebRequest.Post("http://localhost/sqlconnect/getItemID.php", form);
+        UnityWebRequest req2 = UnityWebRequest.Post("http://localhost/sqlconnect/GetItemID.php", form);
         req2.downloadHandler = new DownloadHandlerBuffer();
         
         yield return req2.SendWebRequest();

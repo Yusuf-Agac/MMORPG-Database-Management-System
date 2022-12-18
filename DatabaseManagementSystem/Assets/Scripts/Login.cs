@@ -41,7 +41,7 @@ public class Login : MonoBehaviour
         form.AddField("username", _username.text);
         form.AddField("password", _password.text);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/login.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/Login.php", form);
         
         yield return req.SendWebRequest();
         yield return new WaitForSeconds(1f);

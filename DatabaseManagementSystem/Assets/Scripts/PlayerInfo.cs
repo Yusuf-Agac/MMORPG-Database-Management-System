@@ -17,12 +17,14 @@ public class PlayerInfo : MonoBehaviour
     public int Mana;
     public int MaxMana;
     public string ProfilePicture;
+    public int SkillPoint;
 
     private ExpProgressBar _expProgressBar;
     private HealthAndManaProgressBar _healthAndManaProgressBar;
     private Text _levelText;
     private DBManager _dbManager;
     private CanvasManager _canvasManager;
+    private SkillPoint _skillPoint;
 
     private void Start()
     {
@@ -31,6 +33,7 @@ public class PlayerInfo : MonoBehaviour
         _healthAndManaProgressBar = GetComponent<HealthAndManaProgressBar>();
         _dbManager = GetComponent<DBManager>();
         _canvasManager = GetComponent<CanvasManager>();
+        _skillPoint = GetComponent<SkillPoint>();
     }
 
     public void LoadLevelToUI()
@@ -107,7 +110,9 @@ public class PlayerInfo : MonoBehaviour
         MaxHealth = Level * 100;
         MaxMana = Level * 100;
         StartCoroutine(_dbManager.UpdateMaxHealthAndMaxManaCo());
+        _skillPoint.IncreaseSkillPoint();
         _healthAndManaProgressBar.UpdateProgressBar();
+        
         Debug.Log("LevelUp -> " + Level);
     }
     
@@ -124,6 +129,11 @@ public class PlayerInfo : MonoBehaviour
     public void GetExperience()
     {
         StartCoroutine(_dbManager.GetExperienceCo());
+    }
+    
+    public void GetSkillPoint()
+    {
+        StartCoroutine(_dbManager.GetSkillPointCo());
     }
     
     public void GetID()

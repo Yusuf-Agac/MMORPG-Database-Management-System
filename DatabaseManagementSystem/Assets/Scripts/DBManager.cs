@@ -14,6 +14,8 @@ public class DBManager : MonoBehaviour
     private HealthAndManaProgressBar _healthAndManaProgressBar;
     private ChangeProfileImage _changeProfileImage;
     private FriendList _friendList;
+    private SkillPoint _skillPoint;
+    private SkillList _skillList;
 
     void Start()
     {
@@ -23,6 +25,8 @@ public class DBManager : MonoBehaviour
         _healthAndManaProgressBar = GetComponent<HealthAndManaProgressBar>();
         _changeProfileImage = GetComponent<ChangeProfileImage>();
         _friendList = GetComponent<FriendList>();
+        _skillPoint = GetComponent<SkillPoint>();
+        _skillList = GetComponent<SkillList>();
     }
 
     public IEnumerator GetIDCo()
@@ -30,7 +34,7 @@ public class DBManager : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("Username", _playerInfo.Username);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getUserID.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserID.php", form);
         
         yield return req.SendWebRequest();
         
@@ -44,6 +48,8 @@ public class DBManager : MonoBehaviour
             _playerInfo.GetHealthMana();
             _playerInfo.GetProfilePicture();
             _friendList.LoadFriendList();
+            _playerInfo.GetSkillPoint();
+            _skillList.LoadSkills();
         }
         else
         {
@@ -56,7 +62,7 @@ public class DBManager : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getUserXP.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserXP.php", form);
         
         yield return req.SendWebRequest();
         
@@ -81,7 +87,7 @@ public class DBManager : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getUserLVL.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserLVL.php", form);
         
         yield return req.SendWebRequest();
         
@@ -107,7 +113,7 @@ public class DBManager : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getHealthMana.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetHealthMana.php", form);
         
         yield return req.SendWebRequest();
         
@@ -149,7 +155,7 @@ public class DBManager : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getProfilePicture.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetProfilePicture.php", form);
         
         yield return req.SendWebRequest();
         
@@ -162,6 +168,31 @@ public class DBManager : MonoBehaviour
         else
         {
             Debug.LogWarning("User ProfilePicture receipt failed: # " + req.downloadHandler.text);
+        }
+    }
+    
+    public IEnumerator GetSkillPointCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserSkillPoint.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text != "400")
+        {
+            var result = int.TryParse(req.downloadHandler.text, out var number);
+            if(result)
+            {
+                _playerInfo.SkillPoint = number;
+            }
+            Debug.Log("User SkillPoint successfully receipt -> " + req.downloadHandler.text);
+            _skillPoint.LoadSkillPoint();
+        }
+        else
+        {
+            Debug.LogWarning("User SkillPoint receipt failed: # " + req.downloadHandler.text);
         }
     }
     
@@ -265,6 +296,26 @@ public class DBManager : MonoBehaviour
         else
         {
             Debug.LogWarning("User ProfilePicture Update failed: # " + req.downloadHandler.text);
+        }
+    }
+    
+    public IEnumerator UpdateSkillPointCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        form.AddField("NewSkillPoint", _playerInfo.SkillPoint);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserSkillPointUpdate.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text == "0")
+        {
+            Debug.Log("User SkillPoint Update successfully");
+        }
+        else
+        {
+            Debug.LogWarning("User SkillPoint Update failed: # " + req.downloadHandler.text);
         }
     }
 }

@@ -145,7 +145,7 @@ public class Inventory : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getInventory.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetInventory.php", form);
         
         yield return req.SendWebRequest();
         

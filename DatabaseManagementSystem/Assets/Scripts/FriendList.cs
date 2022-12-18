@@ -68,7 +68,7 @@ public class FriendList : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("ID", _playerInfo.ID);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/getFriendList.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetFriendList.php", form);
         
         yield return req.SendWebRequest();
 

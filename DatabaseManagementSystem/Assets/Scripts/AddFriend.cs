@@ -32,7 +32,7 @@ public class AddFriend : MonoBehaviour
         form.AddField("FriendUsername", FriendUsername);
         form.AddField("ID", _playerInfo.ID);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/addFriend.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/AddFriend.php", form);
         req.downloadHandler = new DownloadHandlerBuffer();
         yield return req.SendWebRequest();
         

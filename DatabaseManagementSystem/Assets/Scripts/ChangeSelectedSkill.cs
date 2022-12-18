@@ -14,6 +14,6 @@ public class ChangeSelectedSkill : MonoBehaviour
 
     public void ChangeSelected()
     {
-        _selectedSkill.SelectedSkillSprite = transform.parent.GetChild(0).GetComponent<Image>().sprite;
+        _selectedSkill.SelectedSkillSprite = transform.parent.GetChild(1).GetComponent<Image>().sprite;
     }
 }
