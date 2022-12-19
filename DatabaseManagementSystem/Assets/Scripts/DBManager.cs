@@ -16,6 +16,7 @@ public class DBManager : MonoBehaviour
     private FriendList _friendList;
     private SkillPoint _skillPoint;
     private SkillList _skillList;
+    private SkillBar _skillBar;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class DBManager : MonoBehaviour
         _friendList = GetComponent<FriendList>();
         _skillPoint = GetComponent<SkillPoint>();
         _skillList = GetComponent<SkillList>();
+        _skillBar = GetComponent<SkillBar>();
     }
 
     public IEnumerator GetIDCo()
@@ -50,6 +52,7 @@ public class DBManager : MonoBehaviour
             _friendList.LoadFriendList();
             _playerInfo.GetSkillPoint();
             _skillList.LoadSkills();
+            _skillBar.LoadSkillBar();
         }
         else
         {

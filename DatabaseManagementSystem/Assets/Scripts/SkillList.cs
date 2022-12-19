@@ -17,7 +17,6 @@ public class SkillList : MonoBehaviour
         public Image OpenImage;
     }
     
-    private int _skillsCounter = 0;
     public Skill[] skills;
     
     private Transform _content;
