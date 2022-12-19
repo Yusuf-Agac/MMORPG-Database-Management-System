@@ -17,6 +17,7 @@ public class DBManager : MonoBehaviour
     private SkillPoint _skillPoint;
     private SkillList _skillList;
     private SkillBar _skillBar;
+    private Coin _coin;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class DBManager : MonoBehaviour
         _skillPoint = GetComponent<SkillPoint>();
         _skillList = GetComponent<SkillList>();
         _skillBar = GetComponent<SkillBar>();
+        _coin = GetComponent<Coin>();
     }
 
     public IEnumerator GetIDCo()
@@ -53,6 +55,8 @@ public class DBManager : MonoBehaviour
             _playerInfo.GetSkillPoint();
             _skillList.LoadSkills();
             _skillBar.LoadSkillBar();
+            _playerInfo.GetCoin();
+            _coin.LoadCoin();
         }
         else
         {
@@ -199,6 +203,31 @@ public class DBManager : MonoBehaviour
         }
     }
     
+    public IEnumerator GetCoinCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserCoin.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text != "400")
+        {
+            var result = int.TryParse(req.downloadHandler.text, out var number);
+            if(result)
+            {
+                _playerInfo.Coin = number;
+            }
+            Debug.Log("User Coin successfully receipt -> " + req.downloadHandler.text);
+            _coin.LoadCoin();
+        }
+        else
+        {
+            Debug.LogWarning("User Coin receipt failed: # " + req.downloadHandler.text);
+        }
+    }
+    
     public IEnumerator UpdateLevelCo()
     {
         WWWForm form = new WWWForm();
@@ -319,6 +348,26 @@ public class DBManager : MonoBehaviour
         else
         {
             Debug.LogWarning("User SkillPoint Update failed: # " + req.downloadHandler.text);
+        }
+    }
+    
+    public IEnumerator UpdateCoinCo()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", _playerInfo.ID);
+        form.AddField("NewCoin", _playerInfo.Coin);
+        
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserCoinUpdate.php", form);
+        
+        yield return req.SendWebRequest();
+        
+        if (req.downloadHandler.text == "0")
+        {
+            Debug.Log("User Coin Update successfully");
+        }
+        else
+        {
+            Debug.LogWarning("User Coin Update failed: # " + req.downloadHandler.text);
         }
     }
 }

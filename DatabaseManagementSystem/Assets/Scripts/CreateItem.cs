@@ -22,10 +22,14 @@ public class CreateItem : MonoBehaviour
     {
         StartCoroutine(CreateItemCo(int.Parse(ItemIndexDD.options[ItemIndexDD.value].text), ItemTypeDD.options[ItemTypeDD.value].text));
     }
+    
+    public void CreateItemFuncWithParameter(int index, string type)
+    {
+        StartCoroutine(CreateItemCo(index, type));
+    }
 
     IEnumerator CreateItemCo(int itemIndex, string itemName)
     {
-        itemIndex -= 1;
         Debug.Log("ID --> " + _playerInfo.ID);
         WWWForm form = new WWWForm();
         form.AddField("ItemName", itemName);

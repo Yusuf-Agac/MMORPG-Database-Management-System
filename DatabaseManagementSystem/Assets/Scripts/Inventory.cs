@@ -48,16 +48,16 @@ public class Inventory : MonoBehaviour
     {
         ItemPrefab = new Dictionary<string, GameObject>()
         {
-            {"Axe", Resources.Load<GameObject>("Prefabs/Axe")},
-            {"Armor", Resources.Load<GameObject>("Prefabs/Armor")},
-            {"Belt", Resources.Load<GameObject>("Prefabs/Belt")},
-            {"Book", Resources.Load<GameObject>("Prefabs/Book")},
-            {"Boot", Resources.Load<GameObject>("Prefabs/Boot")},
-            {"Coin", Resources.Load<GameObject>("Prefabs/Coin")},
-            {"Gem", Resources.Load<GameObject>("Prefabs/Gem")},
-            {"Shield", Resources.Load<GameObject>("Prefabs/Shield")},
-            {"Shoulder", Resources.Load<GameObject>("Prefabs/Shoulder")},
-            {"Sword", Resources.Load<GameObject>("Prefabs/Sword")}
+            {"axe", Resources.Load<GameObject>("Prefabs/axe")},
+            {"armor", Resources.Load<GameObject>("Prefabs/armor")},
+            {"belts", Resources.Load<GameObject>("Prefabs/belts")},
+            {"book", Resources.Load<GameObject>("Prefabs/book")},
+            {"boots", Resources.Load<GameObject>("Prefabs/boots")},
+            {"coins", Resources.Load<GameObject>("Prefabs/coins")},
+            {"gem", Resources.Load<GameObject>("Prefabs/gem")},
+            {"shield", Resources.Load<GameObject>("Prefabs/shield")},
+            {"shoulders", Resources.Load<GameObject>("Prefabs/shoulders")},
+            {"sword", Resources.Load<GameObject>("Prefabs/sword")}
         };
         _dbManager = GetComponent<DBManager>();
         _createItem = GetComponent<CreateItem>();

@@ -18,6 +18,7 @@ public class PlayerInfo : MonoBehaviour
     public int MaxMana;
     public string ProfilePicture;
     public int SkillPoint;
+    public int Coin;
 
     private ExpProgressBar _expProgressBar;
     private HealthAndManaProgressBar _healthAndManaProgressBar;
@@ -136,6 +137,11 @@ public class PlayerInfo : MonoBehaviour
         StartCoroutine(_dbManager.GetSkillPointCo());
     }
     
+    public void GetCoin()
+    {
+        StartCoroutine(_dbManager.GetCoinCo());
+    }
+
     public void GetID()
     {
         StartCoroutine(_dbManager.GetIDCo());

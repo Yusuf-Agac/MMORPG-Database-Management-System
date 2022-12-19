@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3797478005305180522}
   - component: {fileID: 3568217194701277935}
   m_Layer: 5
-  m_Name: Gem
+  m_Name: gem
   m_TagString: Gem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

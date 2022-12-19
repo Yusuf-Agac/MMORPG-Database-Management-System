@@ -23,7 +23,6 @@ public class ExpProgressBar : MonoBehaviour
         _expProgressBarTransform.localScale = Vector3.Lerp(_expProgressBarTransform.localScale, _localScale + _pivotForDividedByZero, Time.deltaTime * 10);
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
     public void UpdateProgressBar()
     {
         _localScale = new Vector3((float)_playerInfo.Experience / (float)(_playerInfo.Level * 100), _localScale.y, _localScale.z);
