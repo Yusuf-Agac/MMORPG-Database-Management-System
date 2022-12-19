@@ -45,9 +45,8 @@ public class SkillBar : MonoBehaviour
     {
         foreach (var skill in skillBar)
         {
-            if (skill != null && !skill.IsEmpty)
+            if (skill != null && skill.SkillName!= null && !skill.IsEmpty)
             {
-                Debug.Log(skill.SkillName);
                 LoadSkillBarPieceToUI(skill.SkillName, skill.SkillIndex);
             }
         }
