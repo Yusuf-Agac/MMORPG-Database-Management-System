@@ -47,10 +47,11 @@ ExportedObj/
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
+Zelda.mp4.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
-
+Zelda.mp4
 # Builds
 *.apk
 *.unitypackage

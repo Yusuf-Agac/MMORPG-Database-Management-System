@@ -3624,7 +3624,7 @@ RectTransform:
   m_Children:
   - {fileID: 425780316}
   m_Father: {fileID: 1199261223}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12267,8 +12267,8 @@ RectTransform:
   - {fileID: 1387177674}
   - {fileID: 1743968747}
   - {fileID: 822847461}
-  - {fileID: 635387917}
   - {fileID: 340469269}
+  - {fileID: 635387917}
   - {fileID: 524988561}
   - {fileID: 1076617248}
   - {fileID: 1611445344}
@@ -19241,7 +19241,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831110656}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: d8fd362225113584cb593fdd9c491b18, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 35d65f498699f09409a9e4d9e672c331, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
