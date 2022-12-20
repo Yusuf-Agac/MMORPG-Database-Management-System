@@ -63,7 +63,7 @@ public class Register : MonoBehaviour
 
     public void VerifyRules()
     {
-        //_registerButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8 && IsNumber(_username.text[0]));
+        _registerButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8 && IsNumber(_username.text[0]));
     }
 
     private bool IsNumber(char c)

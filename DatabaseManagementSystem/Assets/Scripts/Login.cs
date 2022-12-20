@@ -70,7 +70,7 @@ public class Login : MonoBehaviour
 
     public void VerifyRules()
     {
-        //_loginButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8);
+        _loginButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8);
     }
 }
 
