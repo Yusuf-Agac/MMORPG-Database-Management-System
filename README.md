@@ -2,7 +2,7 @@
 Welcome to MMORPG-Database-Management-System! This project was created to gain competence in database management systems and to develop a database that contains the features required for a typical MMORPG game.
 
 ## Features
-The MMORPG-Database-Management-System contains the following features:
+#### The MMORPG-Database-Management-System contains the following features:
 
 Register and Login: Players can create a new account and log in with an existing account to access their player information.
 
