@@ -1,0 +1,607 @@
+openapi: 3.0.0
+info:
+  title: Unity API
+  version: 1.0.0
+servers:
+- url: http://localhost/sqlconnect
+  description: Local server
+paths:
+  /GET/coin.php:
+    get:
+      summary: Get coin for a player
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Invalid request
+  /GET/experience:
+    get:
+      summary: Get experience for a player
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Invalid request
+  /GET/friends:
+    get:
+      summary: Get a player's friends
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Invalid request
+  /GET/health-mana:
+    get:
+      summary: Get a player's health and mana
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Invalid request
+  /GET/id:
+    get:
+      summary: Get player ID by username
+      parameters:
+        - in: query
+          name: Username
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: integer
+        400:
+          description: Bad Request
+    description: Returns the player ID of the specified username.
+
+  /GET/inventory:
+    get:
+      summary: Get player inventory by ID
+      parameters:
+        - in: query
+          name: ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "1,Sword,1,1/2,Shield,2,1"
+        400:
+          description: Bad Request
+    description: Returns the inventory of the specified player ID.
+
+  /GET/item-id:
+    get:
+      summary: Get item ID by player ID and item index
+      parameters:
+        - in: query
+          name: ID
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: ItemIndex
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: integer
+        400:
+          description: Bad Request
+    description: Returns the item ID of the specified player ID and item index.
+  /GET/level:
+    get:
+      summary: Get player level by ID
+      parameters:
+        - in: query
+          name: ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: integer
+        400:
+          description: Bad Request
+    description: Returns the level of the specified player ID.
+  
+  /GET/profile-picture:
+    get:
+      summary: Get player profile picture.
+      description: Returns the URL of the player's profile picture for the given player ID.
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Player profile picture URL returned.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "https://example.com/profile.jpg"
+        '400':
+          description: Player profile picture not found.
+  /GET/skill-bar.php:
+    get:
+      summary: Get skill bar data by ID
+      description: Retrieve skill bar data for a specific ID from the Unity database
+      parameters:
+        - name: ID
+          in: query
+          description: ID of the player
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Skill bar data retrieved successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "SkillName1, 1/SkillName2, 2/"
+        '400':
+          description: Bad request, connection failed or no data found
+  /GET/skill-point.php:
+    get:
+      summary: Get skill point data by ID
+      description: Retrieve skill point data for a specific ID from the Unity database
+      parameters:
+        - name: ID
+          in: query
+          description: ID of the player
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Skill point data retrieved successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "10"
+        '400':
+          description: Bad request, connection failed or no data found
+  /GET/skills.php:
+    get:
+      summary: Get skill data by ID
+      description: Retrieve skill data for a specific ID from the Unity database
+      parameters:
+        - name: ID
+          in: query
+          description: ID of the player
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Skill data retrieved successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "SkillName1/SkillName2"
+        '400':
+          description: Bad request, connection failed or no data found
+  /POST/friend.php:
+    post:
+      summary: Adds a friend
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                FriendUsername:
+                  type: string
+                ID:
+                  type: integer
+      responses:
+        '200':
+          description: Friend added
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+    description: Endpoint for adding a friend
+  /POST/item.php:
+    post:
+      summary: Adds an item
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ItemName:
+                  type: string
+                ItemIndex:
+                  type: integer
+                ID:
+                  type: integer
+      responses:
+        '200':
+          description: Item added
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+    description: Endpoint for adding an item
+  /POST/login.php:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User authenticated
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+    description: Endpoint for user authentication
+  /POST/register.php:
+    post:
+      summary: User registration
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User registered
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+    description: Endpoint for user registration
+  /UPDATE/coin:
+    put:
+      summary: "Update player's coin amount"
+      operationId: "updateCoin"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ID:
+                  type: integer
+                  description: "The player's ID"
+                  example: 123
+                NewCoin:
+                  type: integer
+                  description: "The new coin amount"
+                  example: 500
+              required:
+                - ID
+                - NewCoin
+        description: "JSON object containing the player's ID and new coin amount"
+      responses:
+        200:
+          description: "Successful update"
+        500:
+          description: "Coin Update failed"
+  /UPDATE/experience:
+    put:
+      summary: "Update player's experience points"
+      operationId: "updateExperience"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ID:
+                  type: integer
+                  description: "The player's ID"
+                  example: 123
+                NewXP:
+                  type: integer
+                  description: "The new experience points"
+                  example: 1000
+              required:
+                - ID
+                - NewXP
+        description: "JSON object containing the player's ID and new experience points"
+      responses:
+        200:
+          description: "Successful update"
+        500:
+          description: "Experience Update failed"
+  /UPDATE/health-mana:
+    put:
+      summary: "Update player's health and mana"
+      operationId: "updateHealthMana"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ID:
+                  type: integer
+                  description: "The player's ID"
+                  example: 123
+                NewHealth:
+                  type: integer
+                  description: "The new health value"
+                  example: 80
+                NewMana:
+                  type: integer
+                  description: "The new mana value"
+                  example: 50
+              required:
+                - ID
+                - NewHealth
+                - NewMana
+        description: "JSON object containing the player's ID, new health value, and new mana value"
+      responses:
+        200:
+          description: "Successful update"
+        500:
+          description: "Health or Mana Update failed"
+  /UPDATE/item-index:
+    put:
+      summary: "Update item index"
+      operationId: "updateItemIndex"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ItemID:
+                  type: integer
+                  description: "The ID of the item to update"
+                  example: 456
+                ItemIndex:
+                  type: integer
+                  description: "The new index value of the item"
+                  example: 3
+              required:
+                - ItemID
+                - ItemIndex
+        description: "JSON object containing the item's ID and new index value"
+      responses:
+        200:
+          description: "Successful update"
+        500:
+          description: "Swap Item Index query failed"
+  /UPDATE/level-up:
+    put:
+      summary: Update player level
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ID:
+                  type: string
+                  description: Player ID
+                NewLevel:
+                  type: integer
+                  description: New player level
+              required:
+                - ID
+                - NewLevel
+      responses:
+        '200':
+          description: Level updated successfully
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 0
+        '400':
+          description: Invalid request
+  /UPDATE/max-health-mana:
+    put:
+      summary: Update player max health and max mana
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ID:
+                  type: string
+                  description: Player ID
+                NewHealth:
+                  type: integer
+                  description: New player max health
+                NewMana:
+                  type: integer
+                  description: New player max mana
+              required:
+                - ID
+                - NewHealth
+                - NewMana
+      responses:
+        '200':
+          description: Max health and max mana updated successfully
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 0
+        '400':
+          description: Invalid request
+  /UPDATE/profile-picture:
+    put:
+      summary: Update player profile picture
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ID:
+                  type: string
+                  description: Player ID
+                NewProfilePicture:
+                  type: string
+                  description: New player profile picture
+              required:
+                - ID
+                - NewProfilePicture
+      responses:
+        '200':
+          description: Profile picture updated successfully
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 0
+        '400':
+          description: Invalid request
+  /UPDATE/skill-bar:
+    put:
+      summary: Update player skill bar
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                SkillName:
+                  type: string
+                  description: Skill name
+                SkillBarIndex:
+                  type: integer
+                  description: Skill bar index
+                ID:
+                  type: string
+                  description: Player ID
+              required:
+                - SkillName
+                - SkillBarIndex
+                - ID
+      responses:
+        '200':
+          description: Skill bar updated successfully
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 0
+        '400':
+          description: Invalid request
+  /UPDATE/skill-point:
+    put:
+      summary: Update player skill points
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ID:
+                  type: string
+                  description: Player ID
+                NewSkillPoint:
+                  type: integer
+                  description: New player skill point
+              required:
+                - ID
+                - NewSkillPoint
+      responses:
+        '200':
+          description: Skill points updated successfully
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 0
+        '400':
+          description: Invalid request
