@@ -5,10 +5,15 @@ Welcome to MMORPG-Database-Management-System! This project was created to gain c
 The MMORPG-Database-Management-System contains the following features:
 
 Register and Login: Players can create a new account and log in with an existing account to access their player information.
+
 Inventory: Players can view their inventory and manage their items, including equipping and unequipping items.
+
 User Info: Players can view and edit their user information, including their name, password, coin, exp, mana, health, etc.
+
 Market: Players can buy items in a marketplace.
+
 Skills: Players can view and upgrade their skills.
+
 Friends: Players can view their friends informations.
 
 ## Technologies
