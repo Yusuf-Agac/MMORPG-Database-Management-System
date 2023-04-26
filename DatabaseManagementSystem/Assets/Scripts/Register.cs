@@ -41,7 +41,7 @@ public class Register : MonoBehaviour
         form.AddField("username", _username.text);
         form.AddField("password", _password.text);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/Register.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/POST/register.php", form);
         req.downloadHandler = new DownloadHandlerBuffer();
         yield return req.SendWebRequest();
         yield return new WaitForSeconds(3f);
@@ -63,7 +63,7 @@ public class Register : MonoBehaviour
 
     public void VerifyRules()
     {
-        _registerButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8 && IsNumber(_username.text[0]));
+        //_registerButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8 && IsNumber(_username.text[0]));
     }
 
     private bool IsNumber(char c)

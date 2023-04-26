@@ -34,7 +34,7 @@ public class ChangeSkillBar : MonoBehaviour
         form.AddField("SkillBarIndex", skillIndex);
         form.AddField("ID", _playerInfo.ID.ToString());
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UpdateSkillBar.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UPDATE/skill-bar.php", form);
         req.downloadHandler = new DownloadHandlerBuffer();
         yield return req.SendWebRequest();
         

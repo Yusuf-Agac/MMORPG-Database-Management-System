@@ -40,7 +40,7 @@ public class LearnSkill : MonoBehaviour
         form.AddField("SkillName", skillName);
         form.AddField("ID", _playerInfo.ID);
         Debug.Log(skillName + " " + _playerInfo.ID);
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/LearnSkill.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/POST/skill.php", form);
         req.downloadHandler = new DownloadHandlerBuffer();
         yield return req.SendWebRequest();
         

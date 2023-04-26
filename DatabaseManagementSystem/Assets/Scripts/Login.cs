@@ -41,7 +41,7 @@ public class Login : MonoBehaviour
         form.AddField("username", _username.text);
         form.AddField("password", _password.text);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/Login.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/POST/login.php", form);
         
         yield return req.SendWebRequest();
         yield return new WaitForSeconds(1f);
@@ -70,7 +70,7 @@ public class Login : MonoBehaviour
 
     public void VerifyRules()
     {
-        _loginButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8);
+        //_loginButton.interactable = (_username.text.Length >= 8 && _password.text.Length >= 8);
     }
 }
 

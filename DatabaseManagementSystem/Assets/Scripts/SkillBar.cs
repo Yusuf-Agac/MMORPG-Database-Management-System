@@ -67,10 +67,7 @@ public class SkillBar : MonoBehaviour
     
     IEnumerator LoadSkillBarCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", _playerInfo.ID);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetSkillBar.php", form);
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/skill-bar.php?ID=" + _playerInfo.ID);
         
         yield return req.SendWebRequest();
         
