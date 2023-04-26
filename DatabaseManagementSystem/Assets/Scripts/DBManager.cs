@@ -35,10 +35,7 @@ public class DBManager : MonoBehaviour
 
     public IEnumerator GetIDCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("Username", _playerInfo.Username);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserID.php", form);
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/id.php?Username=" + _playerInfo.Username);
         
         yield return req.SendWebRequest();
         
@@ -66,10 +63,7 @@ public class DBManager : MonoBehaviour
 
     public IEnumerator GetExperienceCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", _playerInfo.ID);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserXP.php", form);
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/experience.php?ID=" + _playerInfo.ID);
         
         yield return req.SendWebRequest();
         
@@ -91,10 +85,7 @@ public class DBManager : MonoBehaviour
 
     public IEnumerator GetLevelCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", _playerInfo.ID);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserLVL.php", form);
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/level.php?ID=" + _playerInfo.ID);
         
         yield return req.SendWebRequest();
         
@@ -117,10 +108,7 @@ public class DBManager : MonoBehaviour
 
     public IEnumerator GetHealthManaCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", _playerInfo.ID);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetHealthMana.php", form);
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/health-mana.php?ID=" + _playerInfo.ID);
         
         yield return req.SendWebRequest();
         
@@ -159,10 +147,7 @@ public class DBManager : MonoBehaviour
     
     public IEnumerator GetProfilePictureCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", _playerInfo.ID);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetProfilePicture.php", form);
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/profile-picture.php?ID=" + _playerInfo.ID);
         
         yield return req.SendWebRequest();
         
@@ -180,10 +165,7 @@ public class DBManager : MonoBehaviour
     
     public IEnumerator GetSkillPointCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", _playerInfo.ID);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserSkillPoint.php", form);
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/skill-point.php?ID=" + _playerInfo.ID);
         
         yield return req.SendWebRequest();
         
@@ -205,11 +187,8 @@ public class DBManager : MonoBehaviour
     
     public IEnumerator GetCoinCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", _playerInfo.ID);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetUserCoin.php", form);
-        
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/coin.php?ID=" + _playerInfo.ID);
+
         yield return req.SendWebRequest();
         
         if (req.downloadHandler.text != "400")
@@ -234,7 +213,7 @@ public class DBManager : MonoBehaviour
         form.AddField("ID", _playerInfo.ID);
         form.AddField("NewLevel", _playerInfo.Level);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserLvlUp.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UPDATE/level-up.php", form);
         
         yield return req.SendWebRequest();
         
@@ -254,7 +233,7 @@ public class DBManager : MonoBehaviour
         form.AddField("ID", _playerInfo.ID);
         form.AddField("NewXP", _playerInfo.Experience);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserXpUpdate.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/Update/experience.php", form);
         
         yield return req.SendWebRequest();
         
@@ -276,7 +255,7 @@ public class DBManager : MonoBehaviour
         form.AddField("NewMana", _playerInfo.Mana);
         
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserHealthManaUpdate.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UPDATE/health-mana.php", form);
         
         yield return req.SendWebRequest();
         
@@ -297,7 +276,7 @@ public class DBManager : MonoBehaviour
         form.AddField("NewHealth", _playerInfo.MaxHealth);
         form.AddField("NewMana", _playerInfo.MaxMana);
 
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserMaxHealthMaxManaUpdate.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UPDATE/max-health-mana.php", form);
         
         yield return req.SendWebRequest();
         
@@ -317,7 +296,7 @@ public class DBManager : MonoBehaviour
         form.AddField("ID", _playerInfo.ID);
         form.AddField("NewProfilePicture", _playerInfo.ProfilePicture);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserProfilePictureUpdate.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UPDATE/profile-picture.php", form);
         
         yield return req.SendWebRequest();
         
@@ -337,7 +316,7 @@ public class DBManager : MonoBehaviour
         form.AddField("ID", _playerInfo.ID);
         form.AddField("NewSkillPoint", _playerInfo.SkillPoint);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserSkillPointUpdate.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UPDATE/skill-point.php", form);
         
         yield return req.SendWebRequest();
         
@@ -357,7 +336,7 @@ public class DBManager : MonoBehaviour
         form.AddField("ID", _playerInfo.ID);
         form.AddField("NewCoin", _playerInfo.Coin);
         
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UserCoinUpdate.php", form);
+        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/UPDATE/coin.php", form);
         
         yield return req.SendWebRequest();
         

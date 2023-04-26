@@ -50,10 +50,7 @@ public class SkillList : MonoBehaviour
     
     IEnumerator LoadSkillsCo()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("ID", _playerInfo.ID);
-        
-        UnityWebRequest req = UnityWebRequest.Post("http://localhost/sqlconnect/GetSkills.php", form);
+        UnityWebRequest req = UnityWebRequest.Get("http://localhost/sqlconnect/GET/skills.php?ID=" + _playerInfo.ID);
         
         yield return req.SendWebRequest();
         
